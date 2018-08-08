@@ -37,6 +37,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var textPropTypes = _reactNative.Text.propTypes || {};
 var OS = _reactNative.Platform.OS;
 
+
+var DEFAULT_LINKIFY = require('linkify-it')();
+
 var Hyperlink = function (_Component) {
   _inherits(Hyperlink, _Component);
 
@@ -47,20 +50,11 @@ var Hyperlink = function (_Component) {
 
     _this.linkify = _this.linkify.bind(_this);
     _this.parse = _this.parse.bind(_this);
-    _this.linkifyIt = props.linkify || require('linkify-it')();
+    _this.linkifyIt = props.linkify || DEFAULT_LINKIFY;
     return _this;
   }
 
   _createClass(Hyperlink, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps() {
-      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          _ref$linkify = _ref.linkify,
-          linkify = _ref$linkify === undefined ? require('linkify-it')() : _ref$linkify;
-
-      this.linkifyIt = linkify;
-    }
-  }, {
     key: 'render',
     value: function render() {
       var viewProps = _objectWithoutProperties(this.props, []);
@@ -103,11 +97,11 @@ var Hyperlink = function (_Component) {
       });
 
       try {
-        this.linkifyIt.match(component.props.children).forEach(function (_ref2) {
-          var index = _ref2.index,
-              lastIndex = _ref2.lastIndex,
-              text = _ref2.text,
-              url = _ref2.url;
+        this.linkifyIt.match(component.props.children).forEach(function (_ref) {
+          var index = _ref.index,
+              lastIndex = _ref.lastIndex,
+              text = _ref.text,
+              url = _ref.url;
 
           var nonLinkedText = component.props.children.substring(_lastIndex, index);
           nonLinkedText && elements.push(nonLinkedText);
